@@ -34,7 +34,6 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "registered_date_time", nullable = false)
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date registered_date_time;
 
     @ManyToOne

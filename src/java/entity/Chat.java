@@ -33,7 +33,6 @@ public class Chat implements Serializable {
     private String message;
 
     @Column(name = "date_time", nullable = false)
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date_time;
 
     @ManyToOne
