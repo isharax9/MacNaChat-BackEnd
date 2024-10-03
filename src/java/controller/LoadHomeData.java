@@ -34,7 +34,7 @@ public class LoadHomeData extends HttpServlet {
         Gson gson = new Gson();
 
         JsonObject responseJson = new JsonObject();
-        responseJson.addProperty("status", false);
+        responseJson.addProperty("success", false);
         responseJson.addProperty("message", "Unable to process your request");
 
         try {
@@ -133,7 +133,7 @@ public class LoadHomeData extends HttpServlet {
             }
 
             //send users
-            responseJson.addProperty("status", true);
+            responseJson.addProperty("success", true);
             responseJson.addProperty("message", "Success");
 
             responseJson.add("user", gson.toJsonTree(user));
