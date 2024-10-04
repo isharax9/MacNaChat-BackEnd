@@ -1,8 +1,13 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import entity.Chat;
+import entity.Chat_Status;
 import entity.User;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +29,8 @@ public class LoadChat extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Gson gson = new Gson();
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         String logged_user_id = request.getParameter("logged_user_id");
@@ -48,8 +55,58 @@ public class LoadChat extends HttpServlet {
 
         //get chat list
         List<Chat> chat_list = criteria1.list();
-        for(Chat chat : chat_list)
-        System.out.println(chat.getMessage()); //LoadChat?logged_user_id=1&other_user_id=2
-    }
 
+        //get chat_status = 1 (seen)
+        Chat_Status chat_Status = (Chat_Status) session.get(Chat_Status.class, 1);
+
+        //create chat array
+        JsonArray chatArray = new JsonArray();
+
+        //create date time format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, hh:mm a");
+
+        for (Chat chat : chat_list) {
+
+            //create chat object
+            JsonObject chatObject = new JsonObject();
+            chatObject.addProperty("message", chat.getMessage());
+            chatObject.addProperty("datetime", dateFormat.format(chat.getDate_time()));
+
+            //get chats only from other user 
+            if (chat.getFrom_user().getId() == other_user.getId()) {
+
+                //add side to chat object
+                chatObject.addProperty("side", "left");
+
+                //get only unseen chats (chat_status_id = 2)
+                if (chat.getChat_Status().getId() == 2) {
+
+                    //update chat status -> seen
+                    chat.setChat_Status(chat_Status);
+                    session.update(chat);
+                }
+            } else {
+                //get chat from logged user
+
+                //add side to chat object
+                chatObject.addProperty("side", "right");
+                chatObject.addProperty("status", chat.getChat_Status().getId()); // 1 = seen, 2 = unseen
+            }
+
+            //add chat object into chat array
+            chatArray.add(chatObject);
+        }
+        //update DB
+        session.beginTransaction().commit();
+
+        //send response
+        response.setContentType("application/json");
+        response.getWriter().write(gson.toJson(chatArray)); 
+    }
 }
+
+//Test Backend with below URL
+
+//run this servlet with this url /loadChat?logged_user_id=1&other_user_id=2
+
+//http://localhost:8080/MacNaChat/LoadChat?logged_user_id=1&other_user_id=2
