@@ -97,7 +97,7 @@ public class LoadHomeData extends HttpServlet {
 
                 // Get chat list
                 List<Chat> dbChatList = criteria2.list();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy, MMM dd hh:mm a");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd hh:mm a");
 
                 if (dbChatList.isEmpty()) {
                     // No chat

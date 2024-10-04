@@ -5,8 +5,9 @@
         <group>
             <file>file:/C:/netbeans16/MacNaChat/src/java/controller/LoadHomeData.java</file>
             <file>file:/C:/netbeans16/MacNaChat/src/java/controller/SignUp.java</file>
-            <file>file:/C:/netbeans16/MacNaChat/src/java/entity/User.java</file>
             <file>file:/C:/netbeans16/MacNaChat/src/java/controller/SignIn.java</file>
+            <file>file:/C:/netbeans16/MacNaChat/src/java/entity/User_Status.java</file>
+            <file>file:/C:/netbeans16/MacNaChat/src/java/entity/Chat.java</file>
         </group>
     </open-files>
 </project-private>
