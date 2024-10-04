@@ -49,7 +49,7 @@ public class LoadChat extends HttpServlet {
         //get chat list
         List<Chat> chat_list = criteria1.list();
         for(Chat chat : chat_list)
-        System.out.println(chat.getMessage()); //loadChat?logged_user_id=1&other_user_id=2
+        System.out.println(chat.getMessage()); //LoadChat?logged_user_id=1&other_user_id=2
     }
 
 }
