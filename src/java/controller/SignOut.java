@@ -57,10 +57,4 @@ public class SignOut extends HttpServlet {
             session.close();
         }
     }
-
-    // No need for doPost method, as we're handling sign out via GET
-    // @Override
-    // protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    //     // No need to implement this method, as we are handling sign out using GET
-    // }
 }
