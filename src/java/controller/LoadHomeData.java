@@ -101,7 +101,7 @@ public class LoadHomeData extends HttpServlet {
 
                 if (dbChatList.isEmpty()) {
                     // No chat
-                    chatItem.addProperty("message", "Let's Start New Conversation");
+                    chatItem.addProperty("message", "Start this Legendary Chat !!");
                     chatItem.addProperty("dateTime", dateFormat.format(user.getRegistered_date_time()));
                     chatItem.addProperty("chat_status_id", 1); // Seen = 1
                 } else {
