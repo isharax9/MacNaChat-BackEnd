@@ -8,7 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Date;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -39,27 +40,21 @@ public class SignUp extends HttpServlet {
         String password = request.getParameter("password");
         Part avatarImage = request.getPart("avatarImage");
 
+        // Validate inputs
         if (mobile == null || mobile.trim().isEmpty()) {
-            // Mobile number is blank
             responseJson.addProperty("message", "Please fill in your mobile number");
         } else if (!Validations.isMobileNumberValid(mobile)) {
-            // Invalid mobile number
             responseJson.addProperty("message", "Invalid mobile number");
         } else if (firstName == null || firstName.trim().isEmpty()) {
-            // First name is blank
             responseJson.addProperty("message", "Please fill in your first name");
         } else if (lastName == null || lastName.trim().isEmpty()) {
-            // Last name is blank
             responseJson.addProperty("message", "Please fill in your last name");
         } else if (password == null || password.isEmpty()) {
-            // Password is blank
             responseJson.addProperty("message", "Please fill in your password");
         } else if (password.length() < 8) {
-            // Password is less than 8 characters
             responseJson.addProperty("message", "Password must be at least 8 characters long");
         } else {
             // Data validated
-
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
@@ -68,7 +63,10 @@ public class SignUp extends HttpServlet {
             user.setLast_name(lastName);
             user.setMobile(mobile);
             user.setPassword(password);
-            user.setRegistered_date_time(new Date());
+
+            // Get the current local time in Asia/Colombo timezone
+            ZonedDateTime localDateTime = ZonedDateTime.now(ZoneId.of("Asia/Colombo"));
+            user.setRegistered_date_time(java.sql.Timestamp.valueOf(localDateTime.toLocalDateTime())); // Convert to SQL Timestamp
 
             // Get user status (assumed 2 means offline)
             User_Status user_Status = (User_Status) session.get(User_Status.class, 2);
@@ -93,7 +91,6 @@ public class SignUp extends HttpServlet {
                 // Save the image
                 File file = new File(avatarImagePath);
                 Files.copy(avatarImage.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
             }
 
             responseJson.addProperty("success", "true");
