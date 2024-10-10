@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import model.HibernateUtil;
 import org.hibernate.Session;
 
+/**
+ *
+ * @author isharaLakshitha
+ */
 @WebServlet(name = "UserProfile", urlPatterns = {"/UserProfile"})
 public class UserProfile extends HttpServlet {
 
