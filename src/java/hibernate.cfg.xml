@@ -3,9 +3,9 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://165.232.169.105:3306/macna_chat?useSSL=false</property>
-        <property name="hibernate.connection.username">macna</property>
-        <property name="hibernate.connection.password">IshLak@204582_.</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/macna_chat?useSSL=false</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">11010001</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.show_sql">true</property>
         <mapping class="entity.User_Status"/>
